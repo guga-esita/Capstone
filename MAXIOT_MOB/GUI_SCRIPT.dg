@@ -1,0 +1,117 @@
+
+
+var My_SCRIPT =`
+
+
+
+..[page],3
+..{		
+	..header_text, Device
+	
+	..slider(s1),0,100,1;
+	..button, Go, WebSocket.send(5);
+	..label, 󠀠
+	..label, 󠀠
+	..##,2
+	..flip,on(1),off(0), put_input_text('input_text1',Value);
+	..input_text(input_text1)
+	..button, send, Popup_Open("popup_1");
+	..label, 󠀠
+	..label, 󠀠
+	..label, 󠀠
+	..label, 󠀠
+	..label, 󠀠
+	..label, 󠀠
+	..label, 󠀠
+	..label, 󠀠
+	..label, 󠀠
+	..label, 󠀠
+	..label, 󠀠
+	..label, 󠀠
+	..label, 󠀠
+	..button, Main Page, Page_change('1');
+	
+	
+	..[popup](popup_1) ,30px 50px
+    ..{ 
+		..label, your message was sent
+    ..}
+..}
+..[page],1
+..{
+	..header_text, Server Panel
+	..header_button,name, ui-btn ui-btn-icon-notext ui-corner-all ui-icon-cloud, 
+		Connect_To_Server();
+	..header_button,name, ui-btn ui-btn-icon-notext ui-corner-all ui-icon-gear,
+		Popup_Open('isConfig_pop');
+	
+	..info, 3, Our Project,
+	from here you can control your house fully wirelessly
+	
+	..label, 󠀠
+	..label, 
+	
+	..info, 3, tip #1,
+	click "settings" icon to enter the address...
+	
+	..label, 󠀠
+	..label, 
+	
+	..info, 3, tip #2,
+	click "cloud" icon to enter the desired device..
+	
+	..js,
+		function Connect_To_Server(){
+			MQTT_HOST          = Read_Memory('mem_Host');
+			MQTT_PORT          = Read_Memory('mem_Port');
+			MQTT_DEV_ID       = Read_Memory('mem_Device_ID');
+			MQTT_DEV_Name = Read_Memory('mem_Device_Name');
+			if(Connect_Status === 0)  SYS_LOOP_START();
+			if(Connect_Status === 1)  Page_change('1');
+		}
+	
+	..js,
+		function Refresh_isConfig(){
+			put_input_text('it_pop1_Host',Read_Memory('mem_Host'));
+			put_input_text('it_pop1_Port',Read_Memory('mem_Port'));
+			put_input_text('it_pop1_Device_ID',Read_Memory('mem_Device_ID'));
+		    put_input_text('it_pop1_Device_Name',Read_Memory('mem_Device_Name'));
+		}
+			
+	..js_pc, Refresh_isConfig();
+		
+	..[pop](isConfig_pop),10px 20px
+	..{
+		..label,Host:
+		..input_text(it_pop1_Host),
+		..label,Port:
+		..input_text(it_pop1_Port),
+		..label,Device ID:
+		..input_text(it_pop1_Device_ID),
+		..label,Device Name:
+		..input_text(it_pop1_Device_Name),
+		..##,2 
+		..button,Save,
+			Write_Memory('mem_Host', 		get_input_text('it_pop1_Host'));
+			Write_Memory('mem_Port', 		get_input_text('it_pop1_Port'));
+			Write_Memory('mem_Device_ID', 	get_input_text('it_pop1_Device_ID'));
+			Write_Memory('mem_Device_Name',  get_input_text('it_pop1_Device_Name'));
+		..button,Refresh, Refresh_isConfig();
+	..}	
+	
+..}
+
+
+`;
+
+
+var START_SCRIPT = My_SCRIPT;
+
+
+
+
+
+
+
+
+
