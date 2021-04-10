@@ -8,14 +8,21 @@ var My_SCRIPT =`
 ..{		
 	..header_text, Device
 	
-	..slider(s1),0,100,1;
-	..button, Go, WebSocket.send(5);
+	..slider(s1),0,150,1,Write_Memory('slMEM', get_input_text('s1'));
+
+	..input_text('input');
+
+	
+	
+
+	..button, Go, send_message(Read_Memory('slMEM'), 0);
 	..label, 󠀠
 	..label, 󠀠
 	..##,2
 	..flip,on(1),off(0), put_input_text('input_text1',Value);
 	..input_text(input_text1)
 	..button, send, Popup_Open("popup_1");
+	..button, sendBruh, send_message("bruh3", 0);
 	..label, 󠀠
 	..label, 󠀠
 	..label, 󠀠
@@ -30,6 +37,17 @@ var My_SCRIPT =`
 	..label, 󠀠
 	..label, 󠀠
 	..button, Main Page, Page_change('1');
+
+	..js,
+		function send_message(data, port) {
+			message = new Paho.MQTT.Message(data);
+			message.destinationName = port;
+			client.send(message);
+		}
+	..js,
+		function subscribe_topic(topic){
+			client.subscribe(topic);
+		}
 	
 	
 	..[popup](popup_1) ,30px 50px
